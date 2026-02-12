@@ -19,3 +19,6 @@ export const todos = pgTable("todos", {
   dueDate: timestamp("dueDate").notNull(),
   priority: TodosPriorityEnum("priority").notNull().default("medium"),
 });
+
+export type Todo = typeof todos.$inferSelect;
+export type NewTodo = typeof todos.$inferInsert;

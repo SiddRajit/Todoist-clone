@@ -1,6 +1,10 @@
 import { db } from "@/drizzle/db";
 import { todos } from "@/drizzle/schema";
-import { TodoQueryInput } from "@/schema/todoShemas";
+import {
+  CreateTodoInput,
+  TodoQueryInput,
+  UpdateTodoInput,
+} from "@/schema/todoShemas";
 import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 
 export interface PaginatedResponse<T> {
@@ -77,5 +81,29 @@ export class TodoServices {
         hasPreviousPage: page > 1,
       },
     };
+  }
+
+  async createTodo(todoData: CreateTodoInput) {
+    const [newTodo] = await db.insert(todos).values(todoData).returning();
+    return newTodo;
+  }
+
+  async updateTodo(id: string, updates: UpdateTodoInput) {
+    const [updatedTodo] = await db
+      .update(todos)
+      .set(updates)
+      .where(eq(todos.id, id))
+      .returning();
+
+    return updatedTodo;
+  }
+
+  async deleteTodo(id: string) {
+    const [deletedTodo] = await db
+      .delete(todos)
+      .where(eq(todos.id, id))
+      .returning();
+
+    return deletedTodo;
   }
 }

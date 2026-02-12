@@ -15,7 +15,7 @@ export const createTodoSchema = z.object({
     .min(1, "Title is required")
     .max(50, "Title is too long")
     .trim(),
-  desciption: z
+  description: z
     .string()
     .min(1, "Description is required")
     .max(200, "Description is too long")
@@ -35,7 +35,7 @@ export const updateTodoSchema = z.object({
     .max(50, "Title is too long")
     .trim()
     .optional(),
-  desciption: z
+  description: z
     .string()
     .min(1, "Description is required")
     .max(200, "Description is too long")
@@ -47,7 +47,7 @@ export const updateTodoSchema = z.object({
     .transform((val) => new Date(val))
     .optional(),
   priority: PriorityEnum.default("medium").optional(),
-  completed: z.boolean().optional().default(false).optional(),
+  completed: z.boolean().optional(),
 });
 
 export const todoQuerySchema = z.object({
@@ -67,9 +67,9 @@ export const todoQuerySchema = z.object({
     .default(1),
   pageSize: z
     .string()
+    .default("10")
     .transform((val) => parseInt(val, 10))
-    .pipe(z.number().min(1))
-    .default(1),
+    .pipe(z.number().min(1).max(100)),
 });
 
 export const todoIdSchema = z.object({
