@@ -10,10 +10,10 @@ export const apiClient = axios.create({
 export interface Todo {
   id: string;
   title: string;
-  description: string | null;
+  description: string;
   completed: boolean;
   priority: "low" | "medium" | "high";
-  dueDate: string | null;
+  dueDate: string;
   createdAt: string;
   updatedAt: string;
 }
